@@ -3,6 +3,7 @@ package jp.ac.titech.itpro.sdl.phototaker;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // どのアプリを開くのか，Intent()の引数で指定する
                 // TODO: You should setup appropriate parameters for the intent
                 PackageManager packageManager = getPackageManager();
                 List activities = packageManager
@@ -55,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
         case REQ_PHOTO:
             if (resCode == RESULT_OK) {
                 // TODO: You should implement the code that retrieve a bitmap image
+                // カメラからのデータをphotoImgに代入
+                photoImg = (Bitmap)data.getExtras().get("data");
+                // 画像を表示
+                showPhoto();
             }
             break;
         }
